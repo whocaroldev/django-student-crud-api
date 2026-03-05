@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Atualizar Aluno</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    margin:40px;
+    background:#f4f4f4;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:8px;
+    box-shadow:0px 0px 10px rgba(0,0,0,0.1);
+}
+
+input{
+    width:100%;
+    padding:8px;
+    margin:5px 0 15px 0;
+}
+
+button{
+    padding:10px 20px;
+    background:#007bff;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+</style>
+
+<script>
+
+function buscarCEP(){
+
+    let cep = document.getElementById("cep").value.replace("-", "");
+
+    if(cep.length != 8){
+        return;
+    }
+
+    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+    .then(response => response.json())
+    .then(data => {
+
+        if(data.erro){
+            alert("CEP não encontrado");
+            return;
+        }
+
+        document.getElementById("rua").value = data.logradouro;
+        document.getElementById("bairro").value = data.bairro;
+        document.getElementById("cidade").value = data.localidade;
+        document.getElementById("estado").value = data.uf;
+
+    });
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Atualizar informações do aluno</h1>
+
+<p><strong>ID do aluno:</strong> {{ pessoa.id }}</p>
+
+<form action="{% url 'update' pessoa.id %}" method="POST">
+
+{% csrf_token %}
+
+<label>Nome</label>
+<input type="text" name="nome" value="{{ pessoa.nome }}" required>
+
+<label>Idade</label>
+<input type="number" name="idade" value="{{ pessoa.idade }}" required>
+
+<label>Email</label>
+<input type="email" name="email" value="{{ pessoa.email }}" required>
+
+<label>CPF</label>
+<input type="text" name="cpf" value="{{ pessoa.cpf }}" required>
+
+<label>CEP</label>
+<input type="text" id="cep" name="cep" value="{{ pessoa.cep }}" onblur="buscarCEP()" required>
+
+<label>Rua</label>
+<input type="text" id="rua" name="rua" value="{{ pessoa.rua }}">
+
+<label>Bairro</label>
+<input type="text" id="bairro" name="bairro" value="{{ pessoa.bairro }}">
+
+<label>Cidade</label>
+<input type="text" id="cidade" name="cidade" value="{{ pessoa.cidade }}">
+
+<label>Estado</label>
+<input type="text" id="estado" name="estado" value="{{ pessoa.estado }}">
+
+<button type="submit">
+Atualizar aluno
+</button>
+
+</form>
+
+<br>
+<a href="{% url 'home' %}">Voltar</a>
+
+
+</div>
+
+</body>
+</html>
