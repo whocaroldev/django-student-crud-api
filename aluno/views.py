@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from .models import Pessoa
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Pessoa, Nota
 
 
 # Página inicial
@@ -76,3 +76,27 @@ def delete(request, id):
 
     return redirect(home)
 
+def salvar_nota(request, id):
+
+    aluno = Pessoa.objects.get(id=id)
+
+    disciplina = request.POST.get('disciplina')
+    nota_valor = request.POST.get('nota')
+
+    Nota.objects.create(
+        aluno=aluno,
+        disciplina=disciplina,
+        nota=nota_valor
+    )
+
+    return redirect('editar', id=id)
+
+
+def deletar_nota(request, id):
+
+    nota = get_object_or_404(Nota, id=id)
+    aluno_id = nota.aluno.id
+
+    nota.delete()
+
+    return redirect('editar', id=aluno_id)

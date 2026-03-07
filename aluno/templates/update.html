@@ -8,10 +8,18 @@
 
 <style>
 
+:root{
+    --primary:#4361ee;
+    --primary-hover:#3a56d4;
+    --success:#28a745;
+    --success-hover:#218838;
+    --gray:#f8f9fa;
+}
+
 body{
-    font-family: Arial;
-    margin:40px;
-    background:#f4f4f4;
+    font-family: 'Segoe UI', Arial;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    padding:20px;
 }
 
 .container{
@@ -20,25 +28,54 @@ body{
     background:white;
     padding:30px;
     border-radius:8px;
-    box-shadow:0px 0px 10px rgba(0,0,0,0.1);
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+h1{
+    border-bottom:3px solid var(--primary);
+    padding-bottom:10px;
+}
+
+label{
+    font-weight:bold;
 }
 
 input{
     width:100%;
-    padding:8px;
+    padding:10px;
     margin:5px 0 15px 0;
+    border-radius:6px;
+    border:1px solid #ddd;
 }
 
 button{
     padding:10px 20px;
-    background:#007bff;
+    background:var(--success);
     color:white;
     border:none;
+    border-radius:6px;
     cursor:pointer;
 }
 
 button:hover{
-    background:#0056b3;
+    background:var(--success-hover);
+}
+
+a{
+    text-decoration:none;
+    font-weight:bold;
+}
+
+ul{
+    list-style:none;
+    padding:0;
+}
+
+li{
+    background:var(--gray);
+    padding:10px;
+    margin-bottom:5px;
+    border-radius:6px;
 }
 
 </style>
@@ -120,9 +157,50 @@ Atualizar aluno
 
 </form>
 
-<br>
-<a href="{% url 'home' %}">Voltar</a>
+<hr>
 
+<h2>Notas do aluno</h2>
+
+<ul>
+
+{% for nota in pessoa.nota_set.all %}
+
+<li>
+{{ nota.disciplina }} : <strong>{{ nota.nota }}</strong>
+<a href="{% url 'delete_nota' nota.id %}">
+Excluir
+</a>
+</li>
+
+{% empty %}
+
+<li>Este aluno ainda não possui notas cadastradas</li>
+
+{% endfor %}
+
+</ul>
+
+<h3>Adicionar nota</h3>
+
+<form action="{% url 'salvar_nota' pessoa.id %}" method="POST">
+
+{% csrf_token %}
+
+<label>Disciplina</label>
+<input type="text" name="disciplina" required placeholder="Ex: Matemática">
+
+<label>Nota</label>
+<input type="number" step="0.01" name="nota" required placeholder="Ex: 8.5">
+
+<button type="submit">
+Salvar nota
+</button>
+
+</form>
+
+<br>
+
+<a href="{% url 'home' %}">⬅ Voltar para lista</a>
 
 </div>
 
