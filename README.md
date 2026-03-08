@@ -12,26 +12,10 @@ Além disso, o projeto possui uma API desenvolvida com Django REST Framework, qu
 - Exclusão de alunos
 - API para consulta de dados em JSON
 
-## Tecnologias utilizadas
-
-- Python
-- Django
-- Django REST Framework
-- HTML (Templates Django)
-- SQLite
-
-## Estrutura do projeto
-
-O projeto está organizado em:
-
-- Models: responsáveis pela estrutura dos dados
-- Views: responsáveis pela lógica da aplicação
-- Templates: responsáveis pela interface do sistema
-
-## API
-
-A API permite consultar os dados cadastrados no sistema através de endpoints que retornam respostas em formato JSON.
 
 ## Autores
 
 Projeto desenvolvido por Ana Carolina e Eduardo Cardoso para fins de estudo utilizando Django.
+
+
+<img width="1536" height="1024" alt="ChatGPT Image 8 de mar  de 2026, 13_40_06" src="https://github.com/user-attachments/assets/aef6d93a-77a6-4c84-a4b1-0f4b55c9a233" />
